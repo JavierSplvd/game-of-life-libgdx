@@ -365,6 +365,8 @@ The next step is to start rendering the world with the cells. Everything that is
 
 For our game we have the Cell object. Graphically the Cell is represented by a square with a colour: a bright colour when it’s alive and a darker one when it’s dead. The Cell needs an xy origin, a width and a height and a texture. This behaviour will be defined by a class that will be extended, the GameObject class.
 
+In the gif image below a typical game of life is shown:
+
 ![Example](readme-images/Gospers_glider_gun.gif)
 
 Does a game object always have to have a position or a texture? Not always, but 90% of the times yes. As I see it, the GameObject class define the structure for the actors that are going to populate the different screens of the game and serve a graphical purpose or perform some task. Following the Unity MonoBehaviour class I define the following methods:
@@ -386,3 +388,50 @@ Gdx.files.internal("")
 ```
 As there are two textures: one for the cell when is alive an another when is dead, there must be a way to draw a cell with one texture or with another. The approach that needs the least steps is to modify the texture when a cell is revived or killed, being initialized as a static element on a new class: the AssetManager. And the class responsible to the changing of the textures for a cell is the CellSystem class.
 An AssetManager is needed to centralize the loading of the assets on one static place.
+
+Not only the Cell is a game object but the CellSystem class too. It has no graphical representation, so the draw() method is going to be the default one but the update() method needs to be overridden.
+
+In the update() method the CellSystem is going to iterate over the grid and check the four rules on the cell, killing or reviving the cell depending on which rule applies. It is important to remember that the check must be done on an immutable grid that represent the previous state and the modifications must be applied to a grid which represent the next state of the system. The grid of the present state must be cloned and instantiated as a future grid to replace the current one.
+
+There is a problem, when accessing the neighbours, sometimes it tries to access to a point outside the grid, resulting in an ArrayIndexOutOfBoundsException. This exception is managed wrapping the if statements of searching for each of the eight neighbours of a cell with a try-catch statement, and if the former exception is raised to do nothing.
+
+The acting of the cell system is called by the world screen every 0.5 seconds. This is achieved by adding a float field named “clock” and every frame adding the time between frames. The delta parameter of the draw method implemented by the Screen interface. Another alternative could be to call the update() method when a key is pressed.
+
+```
+    @Override
+    public void update(float delta) {
+        clock += delta;
+        if (clock > 0.05) {
+            clock -= 0.05;
+
+            Cell[][] futureGrid = cloneCurrentGrid();
+
+            for (int i = 0; i < systemWidth; i++) {
+                for (int j = 0; j < systemHeight; j++) {
+                    if (getCell(i, j).isAlive()) {
+                        if (isUnderpopulated(i, j)) {
+                            futureGrid[i][j].kill();
+                        } else if (isInStasis(i, j)) {
+                            continue;
+                        } else if (isOverpopulated(i, j)) {
+                            futureGrid[i][j].kill();
+                        }
+                    } else {
+                        if (canReproduce(i, j)) {
+                            futureGrid[i][j].revive();
+                        }
+                    }
+
+                }
+            }
+            currentGrid = futureGrid;
+        }
+
+    }
+
+```
+
+The drawing of the cell system right now is rudimentary. It would be more pleasant to have the grid at the centre of the window. To achieve this an offset will be introduced cells adding some value to the x and y field of the cell and with that giving a top, bottom, left and right margin with a specific method. This method will be called at the screen once the cell system is instantiated. 
+
+Another graphics feature will be a background. The background will be a game object too, with the size of the window and a flat texture. In order to minimize the size of the background image, we create a small tile that is going to repeat to fill the window. To do this is necessary to create a TextureRegion, which defines a rectangle inside a texture. But before this, the texture is set to repeat itself and later the texture region is instantiated with the full width and height.
+

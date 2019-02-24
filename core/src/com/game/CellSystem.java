@@ -11,6 +11,8 @@ public class CellSystem extends GameObject {
     private final int systemHeight;
     private final int size = 32;
 
+    private float clock = 0;
+
     public CellSystem(int systemWidth, int systemHeight) {
         this.systemWidth = systemWidth;
         this.systemHeight = systemHeight;
@@ -86,27 +88,33 @@ public class CellSystem extends GameObject {
 
     @Override
     public void update(float delta) {
-        Cell[][] futureGrid = cloneCurrentGrid();
+        clock += delta;
+        if (clock > 0.05) {
+            clock -= 0.05;
 
-        for (int i = 0; i < systemWidth; i++) {
-            for (int j = 0; j < systemHeight; j++) {
-                if (getCell(i, j).isAlive()) {
-                    if (isUnderpopulated(i, j)) {
-                        futureGrid[i][j].kill();
-                    } else if (isInStasis(i, j)) {
-                        continue;
-                    } else if (isOverpopulated(i, j)) {
-                        futureGrid[i][j].kill();
+            Cell[][] futureGrid = cloneCurrentGrid();
+
+            for (int i = 0; i < systemWidth; i++) {
+                for (int j = 0; j < systemHeight; j++) {
+                    if (getCell(i, j).isAlive()) {
+                        if (isUnderpopulated(i, j)) {
+                            futureGrid[i][j].kill();
+                        } else if (isInStasis(i, j)) {
+                            continue;
+                        } else if (isOverpopulated(i, j)) {
+                            futureGrid[i][j].kill();
+                        }
+                    } else {
+                        if (canReproduce(i, j)) {
+                            futureGrid[i][j].revive();
+                        }
                     }
-                } else {
-                    if (canReproduce(i, j)) {
-                        futureGrid[i][j].revive();
-                    }
+
                 }
-
             }
+            currentGrid = futureGrid;
         }
-        currentGrid = futureGrid;
+
     }
 
     @Override

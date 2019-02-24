@@ -13,7 +13,6 @@ public class World implements Screen {
     private CellSystem cellSystem;
     private Background background;
 
-    private float clock = 0;
 
     @Override
     public void show() {
@@ -28,11 +27,7 @@ public class World implements Screen {
     public void render(float delta) {
         // update()
         background.update(Gdx.graphics.getDeltaTime());
-        clock += delta;
-        if (clock > 0.05) {
-            clock -= 0.05;
-            cellSystem.update(delta);
-        }
+        cellSystem.update(delta);
         // draw()
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
         MyGdxGame.batch.begin();
