@@ -437,9 +437,9 @@ Another graphics feature will be a background. The background will be a game obj
 
 # Rendering with regions and atlases
 
-At the moment we are creating Texture objects for our objects and rendering them with our SpriteBatch. For taking the most of our hardware it is preferable to cluster our tiny images into a unique bigger one and tell the SpriteBatch what portion of it we want to render.ç
+At the moment we are creating Texture objects for our objects and rendering them with our SpriteBatch. For taking the most of our hardware it is preferable to cluster our tiny images into a unique bigger one and tell the SpriteBatch what portion of it we want to render.
 
-IMAGE OF CLUSTERING SPRITES.
+![Cluster sprites](readme-images/cluster-sprites.PNG)
 
 The first step is to get our images and pack them to an atlas using the [LibGDX texture packer](https://github.com/crashinvaders/gdx-texture-packer-gui). The following steps are taken to pack the atlas:
 
