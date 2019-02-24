@@ -360,3 +360,29 @@ The full code of the tests and the classes Cell and CellSystem can be seen in th
 The purpose of the tests is to put together all the cases that can happen and are relevant to a specific part of a game, in this case, the rules of the Game of Life. With TDD, these cases are first established and the code is later written, with the purpose of making the tests pass. The advantage of this approach is to write only the code that achieve the functionality that you pursuing (if the tests cases cover all the functionality is the only code you will need to write) and make a lot easier to refactor and modify in later stages the code and also, the code is usually cleaner and easy to read.
 
 # Rendering with LibGDX
+
+The next step is to start rendering the world with the cells. Everything that is going to be on the screen is going to implement the same behaviour: it needs to be drawn (representation) and to act (logic). 
+
+For our game we have the Cell object. Graphically the Cell is represented by a square with a colour: a bright colour when it’s alive and a darker one when it’s dead. The Cell needs an xy origin, a width and a height and a texture. This behaviour will be defined by a class that will be extended, the GameObject class.
+
+![Example](readme-images/Gospers_glider_gun.gif)
+
+Does a game object always have to have a position or a texture? Not always, but 90% of the times yes. As I see it, the GameObject class define the structure for the actors that are going to populate the different screens of the game and serve a graphical purpose or perform some task. Following the Unity MonoBehaviour class I define the following methods:
+* start(): triggers before the game starts rendering the first frame of the screen. 
+* draw(): drawing of the object.
+* update(): triggers after the frame is rendered.
+* lateUpdate(): triggers before the frame is rendered.
+
+In the following image I want to show the rendering pipeline for our classes: when the screen is instantiated the method show() and the GameObject's start() method will be also called to make the initial preparations to the objects. Later, for each frame in the game loop the screen's render() method will be called and for each GameObject the methods update(), draw() and lateUpdate().
+
+![Hierachy](readme-images/screen-gameobject-hierarchy.png)
+
+The SpriteBatch oversees the drawing, optimising the calls given to the GPU. If the same texture (or a region of a texture) is drawn several times, those rectangles are sent to the GPU at once. Is our game class the object that have the responsibility of the drawing of all the scenes, and a SpriteBatch is added to the game class as an static field. The decision of making it static is to avoid passing the SpriteBatch as a parameter all the time.
+It is important to remember when defining static elements that use the internal classes of the Application interface (such a SpriteBatch), the instantiation must be done after libgdx is setup to avoid errors. And, in our test none of the libgdx modules are instantiated so there can’t be any drawing code in the code that is tested.
+The Cell class now needs to override the GameObject draw class and call the sprite batch draw() method.
+When creating a new Texture object, a path is needed. The following code gives the path to the defined working directory:
+```
+Gdx.files.internal("")
+```
+As there are two textures: one for the cell when is alive an another when is dead, there must be a way to draw a cell with one texture or with another. The approach that needs the least steps is to modify the texture when a cell is revived or killed, being initialized as a static element on a new class: the AssetManager. And the class responsible to the changing of the textures for a cell is the CellSystem class.
+An AssetManager is needed to centralize the loading of the assets on one static place.
