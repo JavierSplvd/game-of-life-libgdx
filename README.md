@@ -377,7 +377,7 @@ Does a game object always have to have a position or a texture? Not always, but 
 
 In the following image I want to show the rendering pipeline for our classes: when the screen is instantiated the method show() and the GameObject's start() method will be also called to make the initial preparations to the objects. Later, for each frame in the game loop the screen's render() method will be called and for each GameObject the methods update(), draw() and lateUpdate().
 
-![Hierachy](readme-images/screen-gameobject-hierarchy.png)
+![Hierachy](readme-images/screen-gameobject-hierarchy.PNG)
 
 The SpriteBatch oversees the drawing, optimising the calls given to the GPU. If the same texture (or a region of a texture) is drawn several times, those rectangles are sent to the GPU at once. Is our game class the object that have the responsibility of the drawing of all the scenes, and a SpriteBatch is added to the game class as an static field. The decision of making it static is to avoid passing the SpriteBatch as a parameter all the time.
 It is important to remember when defining static elements that use the internal classes of the Application interface (such a SpriteBatch), the instantiation must be done after libgdx is setup to avoid errors. And, in our test none of the libgdx modules are instantiated so there can’t be any drawing code in the code that is tested.
