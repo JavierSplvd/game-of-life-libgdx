@@ -81,7 +81,7 @@ As we see on the class from above, a LwjglApplicationConfiguration is instantiat
 
 The LwjglApplication requires two parameters, the configuration class and MyGdxGame class, which is the class that implements an ApplicationListener class, the logic of the application. This logic is called the “life cycle” of the application.
 
-The life cycle of the application includes its own creation, its main loop actions, resizing actions, pausing and resuming (because of the loss of focus of the app, for example) and its removal. Refer to the official docs for more information: wiki.
+The life cycle of the application includes its own creation, its main loop actions, resizing actions, pausing and resuming (because of the loss of focus of the app, for example) and its removal. Refer to the official docs for more information: [wiki](https://github.com/libgdx/libgdx/wiki/The-life-cycle).
 
 The most important method for us is the render() method which can be regarded as the body of the main loop of the application. Is the method that is going to be executed every frame and is not going to do the rendering logic but all the other logic of the game.
 ## The Game and Screen classes
@@ -174,11 +174,11 @@ When the Game class is instantiated the create method is launched and a new Worl
 
 ## Rendering with SpriteBatch and Texture
 
-The bread and butter of rendering is the use of SpriteBatch and Texture. A detailed description of both can be found in the official wiki (link).
+The bread and butter of rendering is the use of SpriteBatch and Texture. A detailed description of both can be found in the official wiki ([link](https://github.com/libgdx/libgdx/wiki/Spritebatch,-Textureregions,-and-Sprites)).
 
 In essence, the SpriteBatch stores all the images that are going to be drawn and passes them to the GPU. A Texture object wraps an image to decode it and send it to the GPU memory, as simple as that.
 
-The SpriteBatch’s draw method renders a texture at the specified coordinates. It also possible to pass more parameters like width, height, flip the texture, scale, rotation… But it is better to think about the texture as a sprite sheet. The draw call must be between the begin and end methods in order to group as many sprites as possible in a single operation. It is also important to use the same texture between these calls because changing to another texture has a performance impact. It’s possible to learn more with this response: link.
+The SpriteBatch’s draw method renders a texture at the specified coordinates. It also possible to pass more parameters like width, height, flip the texture, scale, rotation… But it is better to think about the texture as a sprite sheet. The draw call must be between the begin and end methods in order to group as many sprites as possible in a single operation. It is also important to use the same texture between these calls because changing to another texture has a performance impact. It’s possible to learn more with this response: [link](https://gamedev.stackexchange.com/a/24301).
 
 The World screen in our game is going to have a SpriteBatch and the different textures we want to draw.
 
