@@ -435,3 +435,31 @@ The drawing of the cell system right now is rudimentary. It would be more pleasa
 
 Another graphics feature will be a background. The background will be a game object too, with the size of the window and a flat texture. In order to minimize the size of the background image, we create a small tile that is going to repeat to fill the window. To do this is necessary to create a TextureRegion, which defines a rectangle inside a texture. But before this, the texture is set to repeat itself and later the texture region is instantiated with the full width and height.
 
+# Rendering with regions and atlases
+
+At the moment we are creating Texture objects for our objects and rendering them with our SpriteBatch. For taking the most of our hardware it is preferable to cluster our tiny images into a unique bigger one and tell the SpriteBatch what portion of it we want to render.ç
+
+IMAGE OF CLUSTERING SPRITES.
+
+The first step is to get our images and pack them to an atlas using the [LibGDX texture packer](https://github.com/crashinvaders/gdx-texture-packer-gui). The following steps are taken to pack the atlas:
+
+1. Click on New pack button and enter a name.
+2. Selec an Output directory.
+3. Select the Add Input Files button and select the individual images to pack.
+4. The file type should be PNG.
+5. The Padding X and Padding Y options to 0.
+6. Finally click the Pack all button.
+
+The output is a .png image and a .atlas file.
+
+![Texture Packer](readme-images/atlas.PNG)
+
+## Using the atlas for rendering
+
+In the AssetManager the atlas will be instanced as a static field. In each of the GameObjects (Cell and Background) there will be a TextureRegion field which should ask the AssetManager for a region.
+
+The SpriteBacth class has draw() methods suitable for drawing regions so there is no difference using Texture or TextureRegion. The following screenshot shows the current state of the game:
+
+![Screenshot](readme-images/screenshot.PNG)
+
+

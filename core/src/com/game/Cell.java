@@ -32,12 +32,12 @@ public class Cell extends GameObject {
     @Override
     public void draw() {
         if (currentState == State.ALIVE) {
-            setTexture(AssetManager.texture_alive);
+            setRegion(AssetManager.atlas.findRegion("cell-alive"));
         } else {
-            setTexture(AssetManager.texture_dead);
+            setRegion(AssetManager.atlas.findRegion("cell-dead"));
         }
         MyGdxGame.batch.draw(
-                getTexture(),
+                getRegion(),
                 getX(),
                 getY(),
                 getWidth(),

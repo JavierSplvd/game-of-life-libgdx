@@ -1,8 +1,7 @@
 package com.game.gameobjects;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.game.MyGdxGame;
-import com.game.screens.World;
 
 public class GameObject {
 
@@ -11,13 +10,13 @@ public class GameObject {
     private float width = 0;
     private float height = 0;
 
-    private Texture texture;
+    private TextureAtlas.AtlasRegion texture;
 
-    public Texture getTexture() {
+    public TextureAtlas.AtlasRegion getRegion() {
         return texture;
     }
 
-    public void setTexture(Texture texture) {
+    public void setRegion(TextureAtlas.AtlasRegion texture) {
         this.texture = texture;
     }
 
@@ -53,7 +52,7 @@ public class GameObject {
         this.height = height;
     }
 
-    public void start(){
+    public void start() {
 
     }
 
@@ -66,7 +65,7 @@ public class GameObject {
 
     }
 
-    public void lateUpdate(float delta){
+    public void lateUpdate(float delta) {
         // After the frame renders.
 
     }
