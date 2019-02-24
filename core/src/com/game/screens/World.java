@@ -18,70 +18,30 @@ public class World implements Screen {
     @Override
     public void show() {
         cellSystem = new CellSystem(38, 13);
-        cellSystem.getCell(13, 2).revive();
-        cellSystem.getCell(14, 2).revive();
-
-        cellSystem.getCell(12, 3).revive();
-        cellSystem.getCell(16, 3).revive();
-
-        cellSystem.getCell(11, 4).revive();
-        cellSystem.getCell(17, 4).revive();
-        cellSystem.getCell(25, 4).revive();
-
-        cellSystem.getCell(1, 5).revive();
-        cellSystem.getCell(2, 5).revive();
-        cellSystem.getCell(11, 5).revive();
-        cellSystem.getCell(15, 5).revive();
-        cellSystem.getCell(17, 5).revive();
-        cellSystem.getCell(18, 5).revive();
-        cellSystem.getCell(23, 5).revive();
-        cellSystem.getCell(25, 5).revive();
-
-        cellSystem.getCell(1, 6).revive();
-        cellSystem.getCell(2, 6).revive();
-        cellSystem.getCell(11, 6).revive();
-        cellSystem.getCell(17, 6).revive();
-        cellSystem.getCell(21, 6).revive();
-        cellSystem.getCell(22, 6).revive();
-
-        cellSystem.getCell(12, 7).revive();
-        cellSystem.getCell(16, 7).revive();
-        cellSystem.getCell(21, 7).revive();
-        cellSystem.getCell(22, 7).revive();
-        cellSystem.getCell(35, 7).revive();
-        cellSystem.getCell(36, 7).revive();
-
-        cellSystem.getCell(13, 8).revive();
-        cellSystem.getCell(14, 8).revive();
-        cellSystem.getCell(21, 8).revive();
-        cellSystem.getCell(22, 8).revive();
-        cellSystem.getCell(35, 8).revive();
-        cellSystem.getCell(36, 8).revive();
-
-        cellSystem.getCell(23, 9).revive();
-        cellSystem.getCell(25, 9).revive();
-
-        cellSystem.getCell(25, 10).revive();
-
-
-        cellSystem.addOffsetToTheCells();
-
         background = new Background();
+        background.start();
+        cellSystem.start();
+
     }
 
     @Override
     public void render(float delta) {
+        // update()
+        background.update(Gdx.graphics.getDeltaTime());
+        clock += delta;
+        if (clock > 0.05) {
+            clock -= 0.05;
+            cellSystem.update(delta);
+        }
+        // draw()
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
         MyGdxGame.batch.begin();
         background.draw();
         cellSystem.draw();
         MyGdxGame.batch.end();
-
-        clock += delta;
-        if (clock > 0.05) {
-            clock -= 0.05;
-            cellSystem.act(delta);
-        }
+        // lateUpdate()
+        background.lateUpdate(Gdx.graphics.getDeltaTime());
+        cellSystem.lateUpdate(Gdx.graphics.getDeltaTime());
     }
 
     @Override

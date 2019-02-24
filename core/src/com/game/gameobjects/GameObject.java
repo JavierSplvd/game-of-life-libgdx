@@ -53,11 +53,21 @@ public class GameObject {
         this.height = height;
     }
 
+    public void start(){
+
+    }
+
     public void draw() {
         MyGdxGame.batch.draw(texture, x, y, width, height);
     }
 
-    public void act(float delta) {
+    public void update(float delta) {
+        // Before the frame renders.
+
+    }
+
+    public void lateUpdate(float delta){
+        // After the frame renders.
 
     }
 

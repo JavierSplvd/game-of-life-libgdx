@@ -32,9 +32,60 @@ public class CellSystem extends GameObject {
             }
         }
     }
+    @Override
+    public void start(){
+        getCell(13, 2).revive();
+        getCell(14, 2).revive();
+
+        getCell(12, 3).revive();
+        getCell(16, 3).revive();
+
+        getCell(11, 4).revive();
+        getCell(17, 4).revive();
+        getCell(25, 4).revive();
+
+        getCell(1, 5).revive();
+        getCell(2, 5).revive();
+        getCell(11, 5).revive();
+        getCell(15, 5).revive();
+        getCell(17, 5).revive();
+        getCell(18, 5).revive();
+        getCell(23, 5).revive();
+        getCell(25, 5).revive();
+
+        getCell(1, 6).revive();
+        getCell(2, 6).revive();
+        getCell(11, 6).revive();
+        getCell(17, 6).revive();
+        getCell(21, 6).revive();
+        getCell(22, 6).revive();
+
+        getCell(12, 7).revive();
+        getCell(16, 7).revive();
+        getCell(21, 7).revive();
+        getCell(22, 7).revive();
+        getCell(35, 7).revive();
+        getCell(36, 7).revive();
+
+        getCell(13, 8).revive();
+        getCell(14, 8).revive();
+        getCell(21, 8).revive();
+        getCell(22, 8).revive();
+        getCell(35, 8).revive();
+        getCell(36, 8).revive();
+
+        getCell(23, 9).revive();
+        getCell(25, 9).revive();
+
+        getCell(25, 10).revive();
+
+
+        addOffsetToTheCells();
+
+    }
 
     @Override
-    public void act(float delta) {
+    public void update(float delta) {
         Cell[][] futureGrid = cloneCurrentGrid();
 
         for (int i = 0; i < systemWidth; i++) {
